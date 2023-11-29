@@ -5,7 +5,10 @@ namespace UserManagement.DTO;
 
 public class UserProfile
 {
-    [Key, ForeignKey("User")]
+    [Key]
+    public int UserProfileId {  get; set; }
+
+    [ForeignKey("User")]
     public int UserId { get; set; }
 
     [Required]
