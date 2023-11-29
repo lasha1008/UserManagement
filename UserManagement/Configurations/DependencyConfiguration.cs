@@ -12,6 +12,9 @@ public static class DependencyConfiguration
     {
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
         builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IUserAccountService, UserAccountService>();
+
+        builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
         builder.Services.AddDbContext<UserManagementDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("UserManagement")));

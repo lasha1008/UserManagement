@@ -5,7 +5,10 @@ namespace UserManagement.Repositories;
 
 internal class UserManagementDbContext : DbContext
 {
-    public UserManagementDbContext(DbContextOptions<UserManagementDbContext> options) : base(options) { }
+    public UserManagementDbContext(DbContextOptions<UserManagementDbContext> options) : base(options)
+    {
+        ChangeTracker.LazyLoadingEnabled = false;
+    }
 
     public DbSet<User> Users { get; set; }
     public DbSet<UserProfile> UserProfiles { get; set; }
