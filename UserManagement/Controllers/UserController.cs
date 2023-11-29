@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using UserManagement.Facade.Interfaces.Repository;
 
 namespace UserManagement.Controllers;
 
