@@ -3,7 +3,7 @@ using UserManagement.DTO;
 
 namespace UserManagement.Repositories;
 
-public class UserManagementDbContext : DbContext
+internal class UserManagementDbContext : DbContext
 {
     public UserManagementDbContext(DbContextOptions<UserManagementDbContext> options) : base(options) { }
 

@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\UserManagement.DTO\UserManagement.DTO.csproj" />
+    <ProjectReference Include="..\UserManagement.Facade\UserManagement.Facade.csproj" />
   </ItemGroup>
 
 </Project>
