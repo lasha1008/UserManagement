@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using UserManagement.Api.JwtToken;
 using UserManagement.DTO;
 using UserManagement.Facade.Interfaces.Services;
 using UserManagement.Models;
@@ -8,6 +9,7 @@ namespace UserManagement.Controllers;
 
 [Route("api/v1/[controller]")]
 [ApiController]
+[CustomAuthorization]
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
@@ -32,11 +34,27 @@ public class UserController : ControllerBase
         return Ok(model);
     }
 
-    [HttpPut]
-    [Route("update")]
-    public IActionResult Update(UserProfileModel model)
+    [HttpGet]
+    [Route("search/{text}")]
+    public IActionResult search(string text)
     {
-        var userProfile = _mapper.Map<UserProfile>(model);
+        var models = _userService.Search(text);
+
+        if (models == null) return NotFound();
+
+        return Ok(models);
+    }
+
+    [HttpPut]
+    [Route("update/{id}")]
+    public IActionResult Update(int id, UserProfileModel model)
+    {
+        UserProfile userProfile = _userService.Set(x => x.UserId == id).Single();
+
+        userProfile.FirstName = model.FirstName;
+        userProfile.LastName = model.LastName;
+        userProfile.PersonalNumber = model.PersonalNumber;
+
         _userService.Update(userProfile);
 
         return Ok($"User profile successfully updated");
@@ -52,6 +70,6 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete]
-    [Route("{id}")]
+    [Route("unregister/{id}")]
     public void Unregister(int id) => _userAccountService.Unregister(id);
 }

@@ -1,3 +1,3 @@
 ﻿using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("UserManagement")]
+[assembly: InternalsVisibleTo("UserManagement.Api")]

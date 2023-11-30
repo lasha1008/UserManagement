@@ -20,11 +20,15 @@ public class UserService : IUserService
         {
             _unitOfWork.BeginTransaction();
 
+            _unitOfWork.UserRepository.Insert(user);
+            _unitOfWork.SaveChanges();
+
+            userProfile.UserId = user.UserId;
+
             _unitOfWork.UserProfileRepository.Insert(userProfile);
             _unitOfWork.SaveChanges();
 
-            _unitOfWork.UserRepository.Insert(user);
-            _unitOfWork.SaveChanges();
+
 
             _unitOfWork.CommitTransaction();
         }
@@ -81,4 +85,22 @@ public class UserService : IUserService
         .UserProfileRepository
         .Set(x => x.User.UserId == id && x.User.IsActive)
         .Single();
+
+    public IEnumerable<UserProfile?> Search(string text)
+    {
+        var userProfileQuery = _unitOfWork
+            .UserProfileRepository
+            .Set(x => x.User.IsActive &&
+                      (x.FirstName.Contains(text) || x.LastName.Contains(text)));
+
+        var userQuery = _unitOfWork
+            .UserRepository
+            .Set(x => x.IsActive &&
+            (x.Username.Contains(text) || x.Email.Contains(text)))
+            .Select(x => x.UserProfile);
+
+        var result = userProfileQuery.Union(userQuery);
+
+        return result;
+    }
 }

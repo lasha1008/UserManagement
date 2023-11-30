@@ -16,19 +16,12 @@ public class UserAccountService : IUserAccountService
         _userService = userService;
     }
 
-    public void Register(string username, string password, string email, UserProfile userProfile)
+    public void Register(User user, UserProfile userProfile)
     {
-        if (username == null) throw new ArgumentNullException(nameof(username));
-        if (password == null) throw new ArgumentNullException(nameof(password));
-        if (email == null) throw new ArgumentNullException(nameof(email));
+        if (user == null) throw new ArgumentNullException(nameof(user));
         if (userProfile == null) throw new ArgumentNullException(nameof(userProfile));
 
-        User user = new User()
-        {
-            Username = username,
-            Password = password.GetHash(),
-            Email = email,
-        };
+        user.Password = user.Password.GetHash();
 
         _userService.Insert(user, userProfile);
     }
@@ -62,6 +55,10 @@ public class UserAccountService : IUserAccountService
         _userService.Update(user);
     }
 
-    public void Unregister(int userId) => _userService.Delete(_userService.GetById(userId).User);
+    public void Unregister(int userId)
+    {
+        User user = _unitOfWork.UserRepository.Set(x => x.UserId == userId).Single();
 
+        _userService.Delete(user);
+    }
 }

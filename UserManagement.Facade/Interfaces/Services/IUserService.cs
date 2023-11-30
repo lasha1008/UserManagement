@@ -13,4 +13,5 @@ public interface IUserService
     UserProfile GetById(int id);
     IEnumerable<UserProfile> Set();
     IEnumerable<UserProfile> Set(Expression<Func<UserProfile, bool>> predicate);
+    IEnumerable<UserProfile?> Search(string text);
 }

@@ -19,7 +19,7 @@ public class User
     [MaxLength(50)]
     public string Email { get; set; } = null!;
 
-    public bool IsActive { get; set; }
+    public bool IsActive { get; set; } = true;
 
     public UserProfile? UserProfile { get; set; }
 }

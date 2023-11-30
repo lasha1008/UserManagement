@@ -10,5 +10,7 @@ public class MapperProfileConfiguration : Profile
     {
         CreateMap<UserProfile, UserProfileModel>().ReverseMap();
         CreateMap<User, UserModel>().ReverseMap();
+        CreateMap<User, UserRegisterModel>().ReverseMap();
+        CreateMap<UserProfile, UserRegisterModel>().ReverseMap();
     }
 }
